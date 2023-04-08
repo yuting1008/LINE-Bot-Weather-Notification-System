@@ -1,5 +1,4 @@
-########測試中##########
-# 載入LineBot所需要的套件
+# import packages
 from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
@@ -22,13 +21,13 @@ import openpyxl
 
 app = Flask(__name__)
 
-# 必須放上自己的Channel Access Token
+# put your own Channel Access Token
 line_bot_api = LineBotApi('Gs3ViKUtJfshfDX8MGwyog2+oC9y9XSidDtziEJeYndON7C1RziCbBgU16BrUxoP+GfkSvrAusya0JNI8IijE42hIFrDcog19rEFSXeWF1XTPQCr3h9OIQT/kmKTvIkpVynRg4/M9kq/ZVwSbnCgOgdB04t89/1O/w1cDnyilFU=')
-# 必須放上自己的Channel Secret
+# put your own Channel Secret
 handler = WebhookHandler('726a61fc3ef897983a264dab897709a4')
 
 
-# 監聽所有來自 /callback 的 Post Request
+# Listen to all Post Requests from /callback
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -46,8 +45,7 @@ def callback():
 
     return 'OK'
 
-#訊息傳遞區塊
-##### 基本上程式編輯都在這個function #####
+# Message Passing Block
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = text=event.message.text
@@ -178,7 +176,7 @@ def notify():
         line_bot_api.push_message('U4b278b3e7aab4e54b52f81e5379262ff',TextSendMessage(text.format(temp_now, at_now, weather_now, temp_3hr, at_3hr, weather_3hr, avg_light)))
 
 
-#主程式
+# main function
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
